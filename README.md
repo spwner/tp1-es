@@ -12,7 +12,7 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 ## Tecnologias
 - Linguagem: Javascript
 - Framework: Node.js
-- Banco de Dados: PostgresSQL
+- Banco de Dados: PostgreSQL
 - Agente de IA: Github Copilot, Gemini
 
 ## Histórias de usuário
