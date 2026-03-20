@@ -1,10 +1,10 @@
 # tp1-es
 
 ## Integrantes
-- Caio Cordeiro (full)
-- Davi Sad (full)
+- Caio Cordeiro Fabri (full)
+- Davi Oliveira Sad (full)
 - Giordano Henrqiue Liporati (front)
-- João Gabriel Vaz (back)
+- João Gabriel Guimarães Alves Vaz (back)
 
 ## Objetivo
 Desenvolver uma platforma para auxiliar a comunicação entre possíveis compradores e vendedores de biscoitos, permitindo a seleção e avaliação dos produtos disponíveis assim como prazos de entrega e de encomenda. O site deve ser hospedado em domínio gerenciado pelo vendedor, que possui acesso a ferramentas para a atualização dos dados do serviço.
