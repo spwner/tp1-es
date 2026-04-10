@@ -3,7 +3,7 @@
 ## Integrantes
 - Caio Cordeiro Fabri (full)
 - Davi Oliveira Sad (full)
-- Giordano Henrqiue Liporati (front)
+- Giordano Henrique Liporati (front)
 - João Gabriel Guimarães Alves Vaz (back)
 
 ## Objetivo
