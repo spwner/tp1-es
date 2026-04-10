@@ -25,6 +25,21 @@ Um template de página web para venda de biscoitos construído com **Node.js**, 
 
 ## 🚀 Como Executar
 
+### Forma mais simples (Windows)
+1. Dê duplo clique em `iniciar-site.bat`
+2. O script instala dependências automaticamente (se necessário)
+3. Acesse `http://localhost:3000`
+
+Para encerrar o site, pressione `Ctrl + C` no terminal aberto pelo script.
+
+### Forma mais simples (Linux)
+1. No terminal, rode `chmod +x iniciar-site.sh` (apenas na primeira vez)
+2. Rode `./iniciar-site.sh`
+3. O script instala dependências automaticamente (se necessário)
+4. Acesse `http://localhost:3000`
+
+Para encerrar o site, pressione `Ctrl + C` no terminal.
+
 ### 1. Instalar Dependências
 ```bash
 npm install
