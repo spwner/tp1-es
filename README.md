@@ -16,16 +16,16 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 - Agente de IA: Github Copilot, Gemini
 
 ## Histórias de usuário
-- [ ] Cliente precisa visualizar o cardápio
-- [ ] Cliente precisa montar um carrinho de compras
-- [ ] Cliente precisa realizar um pedido válido para o vendedor
-- [ ] Pedido precisa ser encaminhado por WhatsApp para o vendedor
-- [ ] Pedidos precisam ser registrados no banco de dados
-- [ ] Cliente precisa consultar os prazos de entrega e de encomenda
-- [ ] Vendedor pode atualizar o cardápio
-- [ ] Vendedor pode atualizar os prazos
-- [ ] Vendedor precisa ter acesso restrito as páginas de edição
-- [ ] Cliente e vendedor querem poder usar o tema escuro (geeglo inspired)
+- [ ] Cliente precisa visualizar o cardápio Giordano
+- [ ] Cliente precisa montar um carrinho de compras Joao
+- [ ] Cliente precisa realizar um pedido válido para o vendedor Caio
+- [ ] Pedido precisa ser encaminhado por WhatsApp para o vendedor Joao
+- [ ] Pedidos precisam ser registrados no banco de dados Davi
+- [ ] Cliente precisa consultar os prazos de entrega e de encomenda Davi
+- [ ] Vendedor pode atualizar o cardápio Caio   
+- [ ] Vendedor pode atualizar os prazos Caio
+- [ ] Vendedor precisa ter acesso restrito as páginas de edição Davi
+- [ ] Cliente e vendedor querem poder usar o tema escuro (geeglo inspired) Giordano
 
 ## TODO
 - [ ] Dois diagramas UML em Mermaid
