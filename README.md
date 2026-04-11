@@ -16,7 +16,7 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 - Agente de IA: Github Copilot, Gemini
 
 ## Histórias de usuário
-- [ ] Cliente precisa visualizar o cardápio Giordano
+- [x] Cliente precisa visualizar o cardápio Giordano
 - [ ] Cliente precisa montar um carrinho de compras Joao
 - [ ] Cliente precisa realizar um pedido válido para o vendedor Caio
 - [ ] Pedido precisa ser encaminhado por WhatsApp para o vendedor Joao
