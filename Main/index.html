@@ -9,7 +9,9 @@
 <body>
   <header>
     <h1>🍪 DE MALA E CUIA</h1>
-    <div class="shop-name">CARRINHO</div>
+    <button class="cart-button" onclick="toggleCart()">
+      🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
+    </button>
   </header>
 
   <main>
@@ -27,6 +29,36 @@
       </div>
     </section>
   </main>
+
+  <!-- Modal do Carrinho -->
+  <div id="cartModal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>🛒 Seu Carrinho</h2>
+        <button class="close-btn" onclick="toggleCart()">✕</button>
+      </div>
+      
+      <div class="modal-body">
+        <div id="cartItems" class="cart-items">
+          <!-- Itens do carrinho serão inseridos aqui -->
+        </div>
+        <div id="emptyCart" class="empty-cart">
+          <p>Seu carrinho está vazio</p>
+        </div>
+      </div>
+
+      <div class="modal-footer" id="cartFooter">
+        <div class="cart-summary">
+          <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
+          <p>Frete (estimado): <span id="shipping">R$ 0,00</span></p>
+          <hr>
+          <p class="total">Total: <span id="total">R$ 0,00</span></p>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Finalizar Pedido</button>
+        <button class="continue-shopping-btn" onclick="toggleCart()">Continuar Comprando</button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="footer-content">
