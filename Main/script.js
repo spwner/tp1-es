@@ -1,184 +1,41 @@
-// Array de produtos (biscoitos)
-const products = [
-  {
-    id: 1,
-    name: "Sequilhos Tradicional",
-    description: "Sequilhos Tradicional",
-    price: 70,
-    emoji: "🍫",
-  },
-  {
-    id: 2,
-    name: "Sequilhos de Limão",
-    description: "Sequilhos de Limão",
-    price: 75,
-    emoji: "🍦",
-  },
-  {
-    id: 3,
-    name: "Sequilhos de Maracujá",
-    description: "Sequilhos de Maracujá",
-    price: 75,
-    emoji: "🍓",
-  },
-  {
-    id: 4,
-    name: "Sequilhos de Canela",
-    description: "Sequilhos de Canela",
-    price: 80,
-    emoji: "🌾",
-  },
-  {
-    id: 5,
-    name: "Sequilhos com Gotas de Chocolate",
-    description: "Sequilhos com Gotas de Chocolate",
-    price: 90,
-    emoji: "🥜",
-  },
-  {
-    id: 6,
-    name: "Sequilhos de Côco",
-    description: "Sequilhos de Côco",
-    price: 90,
-    emoji: "✨",
-  },
-  {
-    id: 7,
-    name: "Sequilhos Diet",
-    description: "Sequilhos Diet",
-    price: 90,
-    emoji: "🍯",
-  },
-  {
-    id: 8,
-    name: "Biscoitos Amanteigados (com Raspas de Limão)",
-    description: "Biscoitos Amanteigados (com Raspas de Limão)",
-    price: 85,
-    emoji: "🥥",
-  },
-  {
-    id: 9,
-    name: "Biscoitos de Cappuccino",
-    description: "Biscoitos de Cappuccino",
-    price: 90,
-    emoji: "🍫",
-  },
-  {
-    id: 10,
-    name: "Biscoitos de Paçoquita",
-    description: "Biscoitos de Paçoquita",
-    price: 90,
-    emoji: "🍦",
-  },
-  {
-    id: 11,
-    name: "Biscoitos de Chocolate",
-    description: "Biscoitos de Chocolate",
-    price: 90,
-    emoji: "🍓",
-  },
-  {
-    id: 12,
-    name: "Biscoitos de Café",
-    description: "Biscoitos de Café",
-    price: 90,
-    emoji: "🌾",
-  },
-  {
-    id: 13,
-    name: "Biscoitos de Limão",
-    description: "Biscoitos de Limão",
-    price: 90,
-    emoji: "🥜",
-  },
-  {
-    id: 14,
-    name: "Biscoitos de Maracujá",
-    description: "Biscoitos de Maracujá",
-    price: 90,
-    emoji: "✨",
-  },
-  {
-    id: 15,
-    name: "Biscoitos de Nutella",
-    description: "Biscoitos de Nutella",
-    price: 90,
-    emoji: "🍯",
-  },
-  {
-    id: 16,
-    name: "Biscoitos de Ninho com Leite Condensado",
-    description: "Biscoitos de Ninho com Leite Condensado",
-    price: 105,
-    emoji: "🥥",
-  },
-  {
-    id: 17,
-    name: "Biscoitos Diet",
-    description: "Biscoitos Diet",
-    price: 105,
-    emoji: "🍫",
-  },
-  {
-    id: 18,
-    name: "Biscoitos Amanteigados (com Ovomaltine)",
-    description: "Biscoitos Amanteigados (com Ovomaltine)",
-    price: 105,
-    emoji: "🍦",
-  },
-  {
-    id: 19,
-    name: "Biscoitos de Laranja com Chocolate",
-    description: "Biscoitos de Laranja com Chocolate",
-    price: 105,
-    emoji: "🍓",
-  },
-  {
-    id: 20,
-    name: "Biscoitos de Amêndoas",
-    description: "Biscoitos de Amêndoas",
-    price: 110,
-    emoji: "🌾",
-  },
-  {
-    id: 21,
-    name: "Biscoitos de Damasco",
-    description: "Biscoitos de Damasco",
-    price: 110,
-    emoji: "🥜",
-  },
-  {
-    id: 22,
-    name: "Biscoitos de Pistache",
-    description: "Biscoitos de Pistache",
-    price: 120,
-    emoji: "✨",
-  },
-  {
-    id: 23,
-    name: "Biscoitos Red Velvet",
-    description: "Biscoitos Red Velvet",
-    price: 120,
-    emoji: "🍯",
-  },
-];
+// Array de produtos (carregado pela API)
+let products = [];
+let config = {};
+
+async function loadConfig() {
+  try {
+    const response = await fetch('/api/config');
+    config = await response.json();
+  } catch (error) {
+    console.warn('Não conseguiu carregar configuração, usando padrão:', error);
+    config = { whatsappPhone: '5531973242222' };
+  }
+}
 
 // ========== GERENCIAMENTO DO CARRINHO ==========
 
-// Carrinho em memória (sincronizado com localStorage)
+// Carrinho em memória (sem localStorage)
 let cart = [];
 
-// Carregar carrinho do localStorage
-function loadCart() {
-  const saved = localStorage.getItem("cart");
-  cart = saved ? JSON.parse(saved) : [];
+function persistCart() {
   updateCartUI();
 }
 
-// Salvar carrinho no localStorage
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartUI();
+async function parseApiResponse(response) {
+  const contentType = response.headers.get('content-type') || '';
+
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+
+  const text = await response.text();
+  const normalizedText = text.trim();
+
+  if (!normalizedText || normalizedText.startsWith('<!DOCTYPE')) {
+    throw new Error('Backend indisponivel. Inicie o servidor Node com PostgreSQL ativo.');
+  }
+
+  throw new Error(normalizedText);
 }
 
 // Encontrar produto por ID
@@ -187,7 +44,7 @@ function getProductById(id) {
 }
 
 // Adicionar produto ao carrinho
-function addToCart(productId, productName) {
+function addToCart(productId) {
   const product = getProductById(productId);
   
   if (!product) return;
@@ -207,14 +64,14 @@ function addToCart(productId, productName) {
     });
   }
 
-  saveCart();
-  showNotification(`✅ ${productName} adicionado ao carrinho!`);
+  persistCart();
+  showNotification(`✅ ${product.name} adicionado ao carrinho!`);
 }
 
 // Remover produto do carrinho
 function removeFromCart(productId) {
   cart = cart.filter(item => item.id !== productId);
-  saveCart();
+  persistCart();
 }
 
 // Atualizar quantidade de um item
@@ -226,7 +83,7 @@ function updateQuantity(productId, quantity) {
       removeFromCart(productId);
     } else {
       item.quantity = quantity;
-      saveCart();
+      persistCart();
     }
   }
 }
@@ -234,7 +91,7 @@ function updateQuantity(productId, quantity) {
 // Limpar carrinho
 function clearCart() {
   cart = [];
-  saveCart();
+  persistCart();
 }
 
 // Calcular total do carrinho
@@ -333,35 +190,46 @@ function showNotification(message) {
 }
 
 // Finalizar pedido
-function checkout() {
+async function checkout() {
   if (cart.length === 0) {
     alert('Seu carrinho está vazio!');
     return;
   }
 
-  const subtotal = calculateTotal();
-  const shipping = calculateShipping();
-  const total = subtotal + shipping;
+  try {
+    const response = await fetch('/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        items: cart.map(item => ({ id: item.id, quantity: item.quantity })),
+      }),
+    });
 
-  const message = `
-Olá! Gostaria de fazer o seguinte pedido:
+    const payload = await parseApiResponse(response);
 
-${cart.map(item => `${item.name} (${item.quantity}x) - R$ ${(item.price * item.quantity).toFixed(2)}`).join('\n')}
+    if (!response.ok) {
+      throw new Error(payload.error || 'Falha ao criar pedido.');
+    }
 
-Subtotal: R$ ${subtotal.toFixed(2)}
-Frete: R$ ${shipping.toFixed(2)}
-Total: R$ ${total.toFixed(2)}
-  `.trim();
+    const message = `
+  Olá! Gostaria de fazer o seguinte pedido:
 
-  // Codificar mensagem para URL (WhatsApp)
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://api.whatsapp.com/send?phone=5533983519072&text=${encodedMessage}`;
+  ${payload.items.map(item => `${item.name} (${item.quantity}x)`).join('\n')}
+    `.trim();
 
-  alert('Você será redirecionado para o WhatsApp para confirmar seu pedido.');
-  window.open(whatsappUrl, '_blank');
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${config.whatsappPhone}&text=${encodedMessage}`;
 
-  clearCart();
-  toggleCart();
+    alert('Pedido salvo no sistema. Você será redirecionado para o WhatsApp para confirmar.');
+    window.open(whatsappUrl, '_blank');
+
+    clearCart();
+    toggleCart();
+  } catch (error) {
+    alert(error.message || 'Nao foi possivel finalizar o pedido.');
+  }
 }
 
 // ========== FUNÇÕES DE PRODUTOS ==========
@@ -377,7 +245,7 @@ function createProductCard(product) {
       <h4 class="product-name">${product.name}</h4>
       <p class="product-description">${product.description}</p>
       <p class="product-price">R$ ${product.price.toFixed(2)}</p>
-      <button class="product-btn" onclick="addToCart(${product.id}, '${product.name}')">
+      <button class="product-btn" onclick="addToCart(${product.id})">
         🛒 Adicionar ao carrinho
       </button>
     </div>
@@ -395,6 +263,29 @@ function loadProducts() {
     const card = createProductCard(product);
     productsGrid.appendChild(card);
   });
+}
+
+async function fetchProducts() {
+  const productsGrid = document.getElementById("productsGrid");
+  productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">Carregando cardapio...</p>';
+
+  try {
+    const response = await fetch('/api/menu');
+    const data = await parseApiResponse(response);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Falha ao carregar cardapio.');
+    }
+
+    products = data.map((product) => ({
+      ...product,
+      price: Number(product.price),
+    }));
+
+    loadProducts();
+  } catch (error) {
+    productsGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; padding: 40px;">${error.message || 'Erro ao carregar cardapio.'}</p>`;
+  }
 }
 
 // Função para buscar produtos por nome
@@ -422,6 +313,7 @@ function searchProducts(searchTerm) {
 // Carregar produtos quando a página abrir
 document.addEventListener("DOMContentLoaded", function () {
   console.log("🍪 Loja de Biscoitos Carregada!");
-  loadProducts();
-  loadCart(); // Carregar carrinho salvo
+  loadConfig();
+  fetchProducts();
+  updateCartUI();
 });
