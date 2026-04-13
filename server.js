@@ -92,7 +92,7 @@ async function ensureDatabase() {
 
 app.get('/api/config', (req, res) => {
   res.json({
-    whatsappPhone: process.env.WHATSAPP_PHONE || '5531998351907',
+    whatsappPhone: process.env.WHATSAPP_PHONE || '5533998351907',
   });
 });
 

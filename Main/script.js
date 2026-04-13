@@ -8,7 +8,7 @@ async function loadConfig() {
     config = await response.json();
   } catch (error) {
     console.warn('Não conseguiu carregar configuração, usando padrão:', error);
-    config = { whatsappPhone: '5531998351907' };
+    config = { whatsappPhone: '5533998351907' };
   }
 }
 
