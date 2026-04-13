@@ -34,7 +34,7 @@ if not exist .env (
         echo PGDATABASE=%PGDATABASE%
         echo.
         echo # WhatsApp
-        echo WHATSAPP_PHONE=5531973242222
+        echo WHATSAPP_PHONE=5531998351907
         echo.
         echo # Environment
         echo NODE_ENV=development

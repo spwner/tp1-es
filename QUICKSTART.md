@@ -80,7 +80,7 @@ Para alterar o número de WhatsApp dos pedidos, edite o arquivo `.env` na raiz:
 WHATSAPP_PHONE=5511999999999
 ```
 
-Se não configurar, usa `5531973242222` (padrão).
+Se não configurar, usa `5531998351907` (padrão).
 
 ## Troubleshooting
 
