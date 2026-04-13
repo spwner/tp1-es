@@ -20,7 +20,7 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 - [x] Cliente precisa montar um carrinho de compras Joao
 - [ ] Cliente precisa realizar um pedido válido para o vendedor Caio
 - [x] Pedido precisa ser encaminhado por WhatsApp para o vendedor Joao
-- [ ] Pedidos precisam ser registrados no banco de dados Davi
+- [x] Pedidos precisam ser registrados no banco de dados Davi
 - [ ] Cliente precisa consultar os prazos de entrega e de encomenda Davi
 - [ ] Vendedor pode atualizar o cardápio Caio   
 - [ ] Vendedor pode atualizar os prazos Caio
