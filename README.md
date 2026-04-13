@@ -32,15 +32,17 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 
 ## Execucao rapida (Windows)
 1. Abra a pasta do projeto.
-2. Dê duplo clique em `iniciar-site.bat`.
-3. Abra `http://localhost:3000` no navegador.
+2. Execute `npm install` (apenas na primeira vez).
+3. Rode `iniciar-com-postgres.bat`.
+4. Abra `http://localhost:3000` no navegador.
 
 Para encerrar o servidor, use `Ctrl + C` no terminal.
 
 ## Execucao rapida (Linux)
 1. No terminal, entre na pasta do projeto.
-2. Rode `chmod +x iniciar-site.sh` (apenas na primeira vez).
-3. Rode `./iniciar-site.sh`.
-4. Abra `http://localhost:3000` no navegador.
+2. Rode `npm install` (apenas na primeira vez).
+3. Rode `chmod +x iniciar-com-postgres.sh` (apenas na primeira vez).
+4. Rode `./iniciar-com-postgres.sh`.
+5. Abra `http://localhost:3000` no navegador.
 
 Para encerrar o servidor, use `Ctrl + C` no terminal.

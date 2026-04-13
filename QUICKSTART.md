@@ -45,7 +45,7 @@ sudo -u postgres psql -h 127.0.0.1 -p 5432 -d cookie_shop -c "GRANT ALL PRIVILEG
 ## Execução
 
 ### Windows
-Execute o script que configurará automaticamente o banco (se necessário) e iniciará o servidor:
+Execute o script para iniciar o servidor com as variaveis de ambiente do projeto:
 ```bash
 .\iniciar-com-postgres.bat
 ```

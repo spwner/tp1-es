@@ -50,29 +50,9 @@ echo "  Usuario: $PGUSER"
 echo "  Banco: $PGDATABASE"
 echo ""
 
-# Tenta conectar
-if psql -U postgres -h 127.0.0.1 -p 5432 -c "SELECT 1" &> /dev/null; then
-    echo "✅ Conectado ao PostgreSQL"
-    echo ""
-    
-    # Verifica se o usuário existe
-    if ! psql -U postgres -h 127.0.0.1 -p 5432 -t -c "SELECT 1 FROM pg_user WHERE usename = 'demalaecuia'" 2>/dev/null | grep -q 1; then
-        echo "⚠️ Criando usuário 'demalaecuia'..."
-        psql -U postgres -h 127.0.0.1 -p 5432 -c "CREATE USER demalaecuia;" 2>/dev/null || true
-        echo "✅ Usuario criado"
-    else
-        echo "✅ Usuario 'demalaecuia' encontrado"
-    fi
-    
-    # Verifica se o banco existe
-    if psql -U postgres -h 127.0.0.1 -p 5432 -l | grep -q "cookie_shop"; then
-        echo "✅ Banco 'cookie_shop' encontrado"
-    else
-        echo "Criando banco 'cookie_shop'..."
-        psql -U postgres -h 127.0.0.1 -p 5432 -c "CREATE DATABASE cookie_shop OWNER demalaecuia;" 2>/dev/null || true
-        echo "✅ Banco criado"
-    fi
-    
+# Tenta conectar com as credenciais da aplicacao
+if PGPASSWORD="$PGPASSWORD" psql -U "$PGUSER" -h "$PGHOST" -p "$PGPORT" -d "$PGDATABASE" -c "SELECT 1" &> /dev/null; then
+    echo "✅ Conectado ao PostgreSQL com o usuario da aplicacao"
     echo ""
 else
     echo "❌ ERRO: Não consegui conectar ao PostgreSQL"
@@ -82,8 +62,7 @@ else
     echo "     - Ubuntu/Debian: sudo systemctl start postgresql"
     echo "     - Mac: brew services start postgresql"
     echo ""
-    echo "  2. Se o arquivo /etc/postgresql/18/main/pg_hba.conf está configurado"
-    echo "     com 'trust' para conexões locais (veja QUICKSTART.md)"
+    echo "  2. Se o usuario/senha do projeto foram criados (veja QUICKSTART.md)"
     echo ""
     echo "  3. Se a porta 5432 está aberta: sudo lsof -i :5432"
     echo ""
