@@ -83,6 +83,9 @@ PGDATABASE=cookie_shop
 # WhatsApp
 WHATSAPP_PHONE=5533998351907
 
+# Painel Admin
+ADMIN_PASSWORD=SuaSenhaSecretaAqui123
+
 # Environment
 NODE_ENV=development
 EOF

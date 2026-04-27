@@ -12,6 +12,18 @@ async function loadConfig() {
   }
 }
 
+// Função que verifica se o texto é um link de imagem ou um emoji
+function renderVisual(mediaStr, isCart = false) {
+  // Se o texto começa com http (link externo) ou ponto/barra (caminho local)
+  if (mediaStr.startsWith('http') || mediaStr.includes('/')) {
+    if (isCart) {
+      return `<img src="${mediaStr}" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">`;
+    }
+    return `<img src="${mediaStr}" style="width: 100%; height: 100%; object-fit: cover;">`;
+  }
+  return mediaStr; // Se não for link, devolve o emoji puro
+}
+
 // ========== GERENCIAMENTO DO CARRINHO ==========
 
 // Carrinho em memória (sem localStorage)
@@ -136,7 +148,7 @@ function renderCart() {
 
     cartItemsDiv.innerHTML = cart.map(item => `
       <div class="cart-item">
-        <div class="cart-item-emoji">${item.emoji}</div>
+        <div class="cart-item-emoji" style="display:flex; align-items:center;">${renderVisual(item.emoji, true)}</div>
         <div class="cart-item-info">
           <h4>${item.name}</h4>
           <p>R$ ${item.price.toFixed(2)}</p>
@@ -286,7 +298,7 @@ function createProductCard(product) {
   const minPrice = (product.price * 500) / 1000;
 
   card.innerHTML = `
-    <div class="product-image">${product.emoji}</div>
+    <div class="product-image">${renderVisual(product.emoji)}</div>
     <div class="product-info">
       <h4 class="product-name">${product.name}</h4>
       <p class="product-description">${product.description}</p>

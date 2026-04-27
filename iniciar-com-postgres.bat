@@ -36,6 +36,9 @@ if not exist .env (
         echo # WhatsApp
         echo WHATSAPP_PHONE=5533998351907
         echo.
+        echo # Painel Admin
+        echo ADMIN_PASSWORD=SuaSenhaSecretaAqui123
+        echo.
         echo # Environment
         echo NODE_ENV=development
     ) > .env

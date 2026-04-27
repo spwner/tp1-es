@@ -90,6 +90,81 @@ async function ensureDatabase() {
   }
 }
 
+// Rota para atualizar preço (Protegida)
+app.put('/api/menu/:id', async (req, res) => {
+  const { id } = req.params;
+  const { newPrice, password } = req.body;
+
+  // 1. Verificação de segurança no servidor
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Senha de administrador incorreta.' });
+  }
+
+  // 2. Validação do novo preço
+  const priceValue = parseFloat(newPrice);
+  if (isNaN(priceValue) || priceValue < 0) {
+    return res.status(400).json({ error: 'Preço inválido.' });
+  }
+
+  try {
+    const result = await query(
+      'UPDATE menu_items SET price = $1, updated_at = NOW() WHERE id = $2 RETURNING *',
+      [priceValue, id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Produto não encontrado.' });
+    }
+
+    res.json({ message: 'Preço atualizado com sucesso!', item: result.rows[0] });
+  } catch (error) {
+    console.error('Erro ao atualizar preço:', error);
+    res.status(500).json({ error: 'Falha interna ao atualizar o banco.' });
+  }
+});
+
+// Rota para adicionar novo produto (Protegida)
+app.post('/api/menu', async (req, res) => {
+  const { name, description, price, emoji, password } = req.body;
+
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Senha incorreta.' });
+  }
+
+  try {
+    const result = await query(
+      `INSERT INTO menu_items (name, description, price, emoji) 
+       VALUES ($1, $2, $3, $4) RETURNING *`,
+      [name, description, price, emoji || '🍪']
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Erro ao adicionar produto:', error);
+    res.status(500).json({ error: 'Falha ao adicionar produto.' });
+  }
+});
+
+// Rota para remover produto (Protegida)
+app.delete('/api/menu/:id', async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body; // Recebe a senha no corpo da requisição
+
+  if (!password || password !== process.env.ADMIN_PASSWORD) {
+    return res.status(401).json({ error: 'Senha incorreta.' });
+  }
+
+  try {
+    const result = await query('DELETE FROM menu_items WHERE id = $1', [id]);
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Produto não encontrado.' });
+    }
+    res.json({ message: 'Produto removido com sucesso!' });
+  } catch (error) {
+    console.error('Erro ao remover produto:', error);
+    res.status(500).json({ error: 'Falha ao remover produto.' });
+  }
+});
+
 app.get('/api/config', (req, res) => {
   res.json({
     whatsappPhone: process.env.WHATSAPP_PHONE || '5533998351907',
