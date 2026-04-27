@@ -18,7 +18,7 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 ## Histórias de usuário
 - [x] Cliente precisa visualizar o cardápio Giordano
 - [x] Cliente precisa montar um carrinho de compras Joao
-- [ ] Cliente precisa realizar um pedido válido para o vendedor Caio
+- [x] Cliente precisa realizar um pedido válido para o vendedor Caio
 - [x] Pedido precisa ser encaminhado por WhatsApp para o vendedor Joao
 - [x] Pedidos precisam ser registrados no banco de dados Davi
 - [ ] Cliente precisa consultar os prazos de entrega e de encomenda Davi
