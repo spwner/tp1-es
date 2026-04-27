@@ -453,7 +453,7 @@ footer {
 }
 
 .cart-item-quantity input {
-  width: 40px;
+  width: 70px;
   text-align: center;
   border: 1px solid #d4a574;
   border-radius: 4px;
@@ -583,5 +583,134 @@ footer {
     width: 100%;
     text-align: left;
     margin-top: 8px;
+  }
+}
+
+/* ========== SELETOR DE QUANTIDADE NOS CARDS ========== */
+.card-quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.card-quantity-selector button {
+  background: #f0e5d8;
+  color: #c9915a;
+  border: 1px solid #d4a574;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.card-quantity-selector button:hover {
+  background: #d4a574;
+  color: white;
+}
+
+.card-quantity-selector input {
+  width: 70px;
+  text-align: center;
+  border: 1px solid #e0d7ce;
+  border-radius: 6px;
+  padding: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.card-dynamic-price {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #e0d7ce;
+}
+
+.card-dynamic-price strong {
+  font-size: 20px;
+  color: #c9915a;
+}
+
+/* Barra de Ações Flutuante */
+.side-actions {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 998; /* Fica visível sobre o conteúdo, mas abaixo do modal (1000) */
+}
+
+.side-btn {
+  background: white;
+  border: 2px solid #d4a574;
+  border-radius: 50px; /* Formato pílula */
+  padding: 12px 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  min-width: 80px;
+}
+
+.side-btn:hover {
+  transform: scale(1.1);
+  background: #f9f7f4;
+}
+
+.side-btn .icon {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+/* Estilo específico do botão de carrinho */
+.cart-toggle {
+  border-color: #d4a574;
+}
+
+.cart-badge {
+  background: #e74c3c;
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
+/* Estilo específico do botão de checkout */
+.checkout-direct {
+  border-color: #27ae60;
+  background: #27ae60;
+  color: white;
+}
+
+.checkout-direct:hover {
+  background: #229954;
+}
+
+.checkout-direct .label {
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* Esconder no mobile para não tampar o conteúdo (Opcional) */
+@media (max-width: 480px) {
+  .side-actions {
+    right: 10px;
+    bottom: 20px;
+    top: auto;
+    transform: none;
+    flex-direction: row;
   }
 }

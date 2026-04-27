@@ -6,17 +6,25 @@
   <title>De Mala e Cuia</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
+<div class="side-actions">
+  <button class="side-btn cart-toggle" onclick="toggleCart()" title="Ver Carrinho">
+    <span class="icon">🛒</span>
+    <span id="cartCount" class="cart-badge">R$ 0,00</span>
+  </button>
+  
+  <button class="side-btn checkout-direct" onclick="checkout()" title="Finalizar Pedido">
+    <span class="icon">✅</span>
+    <span class="label">Finalizar</span>
+  </button>
+</div>
 <body>
   <header>
     <h1>🍪 DE MALA E CUIA</h1>
-    <button class="cart-button" onclick="toggleCart()">
-      🛒 Carrinho <span class="cart-count" id="cartCount">0</span>
-    </button>
   </header>
 
   <main>
     <section class="banner">
-      <h2>Bem-vindo à nossa loja de biscoitos premium</h2>
+      <h2>Bem-vindo à nossa loja de biscoitos artesanais</h2>
       <p>Sabor e qualidade em cada mordida</p>
     </section>
 
@@ -51,6 +59,9 @@
         <div class="cart-summary">
           <p>Subtotal: <span id="subtotal">R$ 0,00</span></p>
           <p>Frete (estimado): <span id="shipping">R$ 0,00</span></p>
+          <p class="shipping-notice" style="font-size: 13px; color: #27ae60; margin-top: 5px; font-weight: 500;">
+            O frete é grátis se você puder receber na UFMG.
+          </p>
           <hr>
           <p class="total">Total: <span id="total">R$ 0,00</span></p>
         </div>

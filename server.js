@@ -188,7 +188,7 @@ app.post('/api/orders', async (req, res) => {
     const productsById = new Map(productResult.rows.map((row) => [row.id, row]));
     const pricedItems = normalizedItems.map((item) => {
       const product = productsById.get(item.id);
-      const lineTotal = roundCurrency(product.price * item.quantity);
+      const lineTotal = roundCurrency((product.price * item.quantity) / 1000);
 
       return {
         menuItemId: item.id,

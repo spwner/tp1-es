@@ -53,14 +53,14 @@ function addToCart(productId) {
   const existingItem = cart.find(item => item.id === productId);
 
   if (existingItem) {
-    existingItem.quantity += 1;
+    existingItem.quantity += 100; // Incrementar quantidade em 100g
   } else {
     cart.push({
       id: productId,
       name: product.name,
       price: product.price,
       emoji: product.emoji,
-      quantity: 1
+      quantity: 500 // Definir quantidade inicial em 500g
     });
   }
 
@@ -82,7 +82,7 @@ function updateQuantity(productId, quantity) {
     if (quantity <= 0) {
       removeFromCart(productId);
     } else {
-      item.quantity = quantity;
+      item.quantity = Math.max(500, quantity); // Quantidade mínima de 500g
       persistCart();
     }
   }
@@ -96,7 +96,7 @@ function clearCart() {
 
 // Calcular total do carrinho
 function calculateTotal() {
-  return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  return cart.reduce((total, item) => total + ((item.price * item.quantity) / 1000), 0);
 }
 
 // Calcular frete (5% do total ou mínimo R$ 10)
@@ -108,9 +108,11 @@ function calculateShipping() {
 
 // Atualizar UI do carrinho
 function updateCartUI() {
-  // Atualizar contador do carrinho no header
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  document.getElementById('cartCount').textContent = totalItems;
+  // Pega o valor financeiro total do carrinho usando a função que já existe
+  const totalValue = calculateTotal();
+  
+  // Atualiza a "badge" vermelha no header com o preço formatado em Reais
+  document.getElementById('cartCount').textContent = `R$ ${totalValue.toFixed(2)}`;
 
   // Se modal está aberto, renderizar carrinho
   if (!document.getElementById('cartModal').classList.contains('hidden')) {
@@ -140,12 +142,13 @@ function renderCart() {
           <p>R$ ${item.price.toFixed(2)}</p>
         </div>
         <div class="cart-item-quantity">
-          <button onclick="updateQuantity(${item.id}, ${item.quantity - 1})">−</button>
-          <input type="number" value="${item.quantity}" onchange="updateQuantity(${item.id}, parseInt(this.value))" min="1">
-          <button onclick="updateQuantity(${item.id}, ${item.quantity + 1})">+</button>
+          <button onclick="updateQuantity(${item.id}, ${item.quantity - 100})">−</button>
+          <input type="number" value="${item.quantity}" onchange="updateQuantity(${item.id}, parseInt(this.value))" min="500" step="100">
+          <span style="font-weight: bold; color: #666; margin: 0 4px;">g</span>
+          <button onclick="updateQuantity(${item.id}, ${item.quantity + 100})">+</button>
         </div>
         <div class="cart-item-total">
-          R$ ${(item.price * item.quantity).toFixed(2)}
+          R$ ${((item.price * item.quantity) / 1000).toFixed(2)}
         </div>
         <button class="remove-btn" onclick="removeFromCart(${item.id})">🗑️</button>
       </div>
@@ -213,11 +216,20 @@ async function checkout() {
       throw new Error(payload.error || 'Falha ao criar pedido.');
     }
 
-    const message = `
-  Olá! Gostaria de fazer o seguinte pedido:
+    // Formata a lista de itens primeiro, sem espaços extras no início
+    const itemsList = payload.items.map(item => 
+      `${item.name} (${item.quantity}g) - R$ ${item.lineTotal.toFixed(2)}`
+    ).join('\n');
 
-  ${payload.items.map(item => `${item.name} (${item.quantity}x)`).join('\n')}
-    `.trim();
+    // Monta a mensagem final garantindo que o texto fique encostado na margem esquerda
+    const message = `Olá! Gostaria de fazer o seguinte pedido:
+
+${itemsList}
+
+Frete: R$ ${payload.shipping.toFixed(2)}
+Total: R$ ${payload.total.toFixed(2)}
+
+Aguardo confirmação da encomenda e da data de entrega.`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${config.whatsappPhone}&text=${encodedMessage}`;
@@ -235,23 +247,100 @@ async function checkout() {
 // ========== FUNÇÕES DE PRODUTOS ==========
 
 // Função para criar um cartão de produto
+// ========== FUNÇÕES DO CARD DINÂMICO ==========
+
+// Atualiza a quantidade direto no card (com botões + e -)
+function updateCardQuantity(productId, change) {
+  const input = document.getElementById(`qty-${productId}`);
+  let newQty = parseInt(input.value) + change;
+  
+  // Trava em 500g
+  if (newQty < 500) newQty = 500;
+  
+  input.value = newQty;
+  updateCardPrice(productId);
+}
+
+// Recalcula e exibe o preço no card baseado nas gramas
+function updateCardPrice(productId) {
+  const input = document.getElementById(`qty-${productId}`);
+  let qty = parseInt(input.value);
+  
+  // Garantia caso o usuário digite um valor menor manualmente
+  if (qty < 500) {
+    qty = 500;
+    input.value = 500;
+  }
+  
+  const product = getProductById(productId);
+  const total = (product.price * qty) / 1000;
+  document.getElementById(`price-${productId}`).textContent = `R$ ${total.toFixed(2)}`;
+}
+
+// Cria o card com o seletor de peso e preço dinâmico
 function createProductCard(product) {
   const card = document.createElement("div");
   card.className = "product-card";
+
+  // Calcula o preço inicial para os 500g mínimos
+  const minPrice = (product.price * 500) / 1000;
 
   card.innerHTML = `
     <div class="product-image">${product.emoji}</div>
     <div class="product-info">
       <h4 class="product-name">${product.name}</h4>
       <p class="product-description">${product.description}</p>
-      <p class="product-price">R$ ${product.price.toFixed(2)}</p>
-      <button class="product-btn" onclick="addToCart(${product.id})">
+      <p class="product-price-base" style="font-size: 12px; color: #999; margin-bottom: 8px;">R$ ${product.price.toFixed(2)} / kg</p>
+      
+      <div class="card-quantity-selector">
+        <button onclick="updateCardQuantity(${product.id}, -100)">−</button>
+        <input type="number" id="qty-${product.id}" value="500" min="500" step="100" onchange="updateCardPrice(${product.id})">
+        <span style="font-weight: bold; color: #666;">g</span>
+        <button onclick="updateCardQuantity(${product.id}, 100)">+</button>
+      </div>
+
+      <div class="card-dynamic-price">
+        Total: <strong id="price-${product.id}">R$ ${minPrice.toFixed(2)}</strong>
+      </div>
+
+      <button class="product-btn" onclick="addToCartFromCard(${product.id})">
         🛒 Adicionar ao carrinho
       </button>
     </div>
   `;
 
   return card;
+}
+
+// Adiciona ao carrinho lendo a quantidade escolhida no card
+function addToCartFromCard(productId) {
+  const product = getProductById(productId);
+  const qtyInput = document.getElementById(`qty-${productId}`);
+  const selectedQty = parseInt(qtyInput.value) || 500;
+
+  if (!product) return;
+
+  const existingItem = cart.find(item => item.id === productId);
+
+  // Se já tem no carrinho, apenas soma o novo peso
+  if (existingItem) {
+    existingItem.quantity += selectedQty;
+  } else {
+    cart.push({
+      id: productId,
+      name: product.name,
+      price: product.price,
+      emoji: product.emoji,
+      quantity: selectedQty
+    });
+  }
+
+  persistCart();
+  showNotification(`✅ ${product.name} (${selectedQty}g) adicionado!`);
+
+  // Reseta o card de volta para 500g para a próxima compra
+  qtyInput.value = 500;
+  updateCardPrice(productId);
 }
 
 // Função para carregar todos os produtos
