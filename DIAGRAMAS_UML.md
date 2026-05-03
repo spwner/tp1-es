@@ -98,52 +98,38 @@ classDiagram
 ## Diagrama 2: Diagrama de Casos de Uso
 
 ```mermaid
-flowchart LR
-    %% Atores Principais
+graph TB
     Cliente((Cliente))
     Vendedor((Vendedor/Admin))
-
-    %% Ator Secundário (Sistemas Externos)
-    WhatsApp((API do WhatsApp))
-
-    %% Fronteira do Sistema
-    subgraph SistemaEcommerce [Sistema de E-commerce de Biscoitos]
-        direction TB
-        UC1([UC1: Visualizar Cardápio])
-        UC2([UC2: Adicionar ao Carrinho])
-        UC3([UC3: Gerenciar Carrinho])
-        UC4([UC4: Calcular Preço Total com Frete])
-        UC5([UC5: Finalizar Pedido])
-        
-        UC6([UC6: Atualizar Cardápio])
-        UC7([UC7: Atualizar Prazos de Entrega])
-        UC8([UC8: Visualizar Pedidos Recebidos])
-        UC9([UC9: Atualizar Status dos Pedidos])
-    end
-
-    %% Associações Primárias (Cliente)
-    Cliente --- UC1
-    Cliente --- UC2
-    Cliente --- UC3
-    Cliente --- UC5
-
-    %% Relacionamento de Inclusão (Include)
-    UC5 -.->|<< include >>| UC4
-
-    %% Associações Primárias (Vendedor)
-    Vendedor --- UC6
-    Vendedor --- UC7
-    Vendedor --- UC8
-    Vendedor --- UC9
-
-    %% Associações Secundárias (Sistemas Externos)
-    UC5 --- WhatsApp
-
-    %% Estilização para facilitar a leitura
-    style Cliente fill:#e1f5ff,stroke:#0288d1,stroke-width:2px
-    style Vendedor fill:#fff3e0,stroke:#f57c00,stroke-width:2px
-    style WhatsApp fill:#e8f5e9,stroke:#388e3c,stroke-width:2px
-    style SistemaEcommerce fill:#fafafa,stroke:#9c27b0,stroke-width:2px,stroke-dasharray: 5 5
+    Sistema[Sistema de E-commerce]
+    
+    Cliente -->|UC1| VisualizarCardapio["Visualizar Cardápio"]
+    Cliente -->|UC2| AdicionarCarrinho["Adicionar Produto ao Carrinho"]
+    Cliente -->|UC3| GerenciarCarrinho["Gerenciar Carrinho<br/>- Aumentar/Diminuir Quantidade<br/>- Remover Itens"]
+    Cliente -->|UC4| CalcularPreços["Calcular Preço Total<br/>com Frete"]
+    Cliente -->|UC5| FinalizarPedido["Finalizar Pedido<br/>via WhatsApp"]
+    
+    Vendedor -->|UC6| AtualizarCardapio["Atualizar Cardápio<br/>- Adicionar Produtos<br/>- Atualizar Preços<br/>- Adicionar Imagens"]
+    Vendedor -->|UC7| AtualizarPrazos["Atualizar Prazos<br/>de Entrega"]
+    Vendedor -->|UC8| VisualizarPedidos["Visualizar Pedidos<br/>Recebidos"]
+    Vendedor -->|UC9| AtualizarStatusPedido["Atualizar Status<br/>dos Pedidos"]
+    
+    VisualizarCardapio -->|inclui| Sistema
+    AdicionarCarrinho -->|inclui| Sistema
+    GerenciarCarrinho -->|inclui| Sistema
+    CalcularPreços -->|inclui| Sistema
+    FinalizarPedido -->|inclui| Sistema
+    AtualizarCardapio -->|inclui| Sistema
+    AtualizarPrazos -->|inclui| Sistema
+    VisualizarPedidos -->|inclui| Sistema
+    AtualizarStatusPedido -->|inclui| Sistema
+    
+    FinalizarPedido -.->|gera| NotificacaoWhatsApp["Notificação<br/>WhatsApp"]
+    
+    style Cliente fill:#e1f5ff
+    style Vendedor fill:#fff3e0
+    style Sistema fill:#f3e5f5
+    style NotificacaoWhatsApp fill:#ffebee
 ```
 
 ### Descrição dos Casos de Uso:
