@@ -28,6 +28,9 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 ## TODO
 - [x] Dois diagramas UML em Mermaid
 
+## Slideshow
+- [Link](https://docs.google.com/presentation/d/1fvYGl252TpplLAmtsoz7YRpf2zNw7tJCtmuq4tRn0rM/edit?usp=sharing)
+
 ## Execucao rapida (Windows)
 1. Abra a pasta do projeto.
 2. Execute `npm install` (apenas na primeira vez).
