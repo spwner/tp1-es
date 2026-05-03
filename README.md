@@ -21,15 +21,12 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 - [x] Cliente precisa realizar um pedido válido para o vendedor Caio
 - [x] Pedido precisa ser encaminhado por WhatsApp para o vendedor Joao
 - [X] Pedidos precisam ser registrados no banco de dados Davi
-- [ ] Cliente precisa consultar os prazos de entrega e de encomenda Davi
 - [x] Vendedor pode atualizar o cardápio Caio   
 - [x] Vendedor pode atualizar os prazos Caio
 - [x] Cardápio deve suportar imagens dos produtos Caio
-- [ ] Vendedor precisa ter acesso restrito as páginas de edição Davi
-- [ ] Cliente e vendedor querem poder usar o tema escuro (geeglo inspired) Giordano
 
 ## TODO
-- [ ] Dois diagramas UML em Mermaid
+- [x] Dois diagramas UML em Mermaid
 
 ## Execucao rapida (Windows)
 1. Abra a pasta do projeto.
