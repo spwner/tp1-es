@@ -22,7 +22,7 @@ Desenvolver uma platforma para auxiliar a comunicação entre possíveis comprad
 - [x] Pedido precisa ser encaminhado por WhatsApp para o vendedor
 - [X] Pedidos precisam ser registrados no banco de dados
 - [x] Vendedor pode atualizar o cardápio
-- [x] Vendedor pode atualizar os prazos
+- [x] Vendedor precisa que pedidos sejam salvos no banco de dados
 - [x] Cardápio deve suportar imagens dos produtos
 
 ## TODO
