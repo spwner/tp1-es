@@ -1,3 +1,4 @@
+/** @jest-environment node */
 jest.mock('../src/services/menuService', () => ({
   fetchActiveMenuItems: jest.fn().mockResolvedValue([]),
   createMenuItem: jest.fn().mockResolvedValue({ id: 1, name: 'A' }),

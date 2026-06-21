@@ -16,7 +16,7 @@ describe('menuService', () => {
     const result = await menuService.fetchActiveMenuItems();
 
     expect(result).toEqual([{ id: 1, name: 'A', description: 'B', price: 10, emoji: '🍪' }]);
-    expect(db.query).toHaveBeenCalledWith(expect.stringContaining('FROM menu_items'), undefined);
+    expect(db.query).toHaveBeenCalledWith(expect.stringContaining('FROM menu_items'));
   });
 
   it('createMenuItem inserts a valid item', async () => {

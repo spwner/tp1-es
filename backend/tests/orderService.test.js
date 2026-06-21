@@ -19,8 +19,7 @@ describe('orderService', () => {
     const result = await orderService.fetchPendingOrders();
 
     expect(result).toEqual([{ id: 1, status: 'pending', subtotal: 10, shipping: 5, total: 15, items: [] }]);
-    expect(db.query).toHaveBeenCalledWith(expect.stringContaining('SELECT'), undefined);
-  });
+    expect(db.query).toHaveBeenCalledWith(expect.stringContaining('SELECT'));  });
 
   it('createOrder rejects missing items', async () => {
     await expect(orderService.createOrder(null)).rejects.toMatchObject({ status: 400 });

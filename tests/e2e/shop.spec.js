@@ -4,7 +4,7 @@ test.describe('Loja De Mala e Cuia', () => {
   test('menu é exibido e produtos aparecem', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('h3')).toHaveText('Nossos Biscoitos');
-    await expect(page.locator('.product-card')).toHaveCountGreaterThan(0);
+    await expect(page.locator('.product-card').first()).toBeVisible();
   });
 
   test('adiciona produto ao carrinho e exibe total', async ({ page }) => {
