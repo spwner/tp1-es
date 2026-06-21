@@ -6,18 +6,18 @@
   <title>De Mala e Cuia</title>
   <link rel="stylesheet" href="./styles.css">
 </head>
-<div class="side-actions">
-  <button class="side-btn cart-toggle" onclick="toggleCart()" title="Ver Carrinho">
-    <span class="icon">🛒</span>
-    <span id="cartCount" class="cart-badge">R$ 0,00</span>
-  </button>
-  
-  <button class="side-btn checkout-direct" onclick="checkout()" title="Finalizar Pedido">
-    <span class="icon">✅</span>
-    <span class="label">Finalizar</span>
-  </button>
-</div>
 <body>
+  <div class="side-actions">
+    <button class="side-btn cart-toggle" onclick="toggleCart()" title="Ver Carrinho">
+      <span class="icon">🛒</span>
+      <span id="cartCount" class="cart-badge">R$ 0,00</span>
+    </button>
+    
+    <button class="side-btn checkout-direct" onclick="checkout()" title="Finalizar Pedido">
+      <span class="icon">✅</span>
+      <span class="label">Finalizar</span>
+    </button>
+  </div>
   <header>
     <h1>🍪 DE MALA E CUIA</h1>
   </header>
@@ -84,6 +84,10 @@
     </div>
   </footer>
 
-  <script src="./script.js"></script>
+  <script src="/src/cart.js" defer></script>
+  <script src="/src/menu.js" defer></script>
+  <script src="/src/checkout.js" defer></script>
+  <script src="/src/ui.js" defer></script>
+  <script src="/src/index.js" defer></script>
 </body>
 </html>
