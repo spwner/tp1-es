@@ -1,4 +1,4 @@
-const adminModule = require('../src/admin');
+let adminModule;
 
 describe('admin module', () => {
   beforeEach(() => {
@@ -11,9 +11,13 @@ describe('admin module', () => {
       <div id="adminList"></div>
     `;
 
-    global.fetch = jest.fn();
+    // default mock to satisfy module init's initial loadMenu call
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, json: async () => [] });
     global.alert = jest.fn();
     global.confirm = jest.fn().mockReturnValue(true);
+
+    // require after setting up globals so module init doesn't call real fetch
+    adminModule = require('../src/admin');
   });
 
   it('loads menu items into admin list', async () => {
