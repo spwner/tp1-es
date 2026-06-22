@@ -1,11 +1,9 @@
 /** @jest-environment node */
 jest.mock('../src/services/menuService', () => ({
-  // Mantido: usado no teste de GET /api/menu
   fetchActiveMenuItems: jest.fn().mockResolvedValue([]),
 }));
 
 jest.mock('../src/services/orderService', () => ({
-  // Mantido: usado no teste de POST /api/orders
   createOrder: jest.fn().mockResolvedValue({ orderId: 1, items: [] }),
 }));
 
